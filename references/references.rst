@@ -16,3 +16,7 @@ https://github.com/abhishekkrthakur/pysembler
 * Fast Text
 
 https://fasttext.cc/docs/en/pretrained-vectors.html
+
+* Cookie cutter for data science
+
+https://drivendata.github.io/cookiecutter-data-science/

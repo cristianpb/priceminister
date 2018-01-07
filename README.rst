@@ -57,9 +57,7 @@ Project Organization
 Project based on the `Cookiecutter data science 
 <https://drivendata.github.io/cookiecutter-data-science/>`_ project template.
 
-Kernel add
-==========
-.. code-block:: bash
-   :linenos:
+Documentation
+=============
 
-    `python -m ipykernel install --user --name cdiscount --display-name "cdiscount kernel" `
+Sphinx documentation can be found `here <https://priceminister.readthedocs.io/>`_
