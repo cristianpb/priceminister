@@ -9,3 +9,5 @@ numpy
 matplotlib
 sklearn
 scipy
+nltk
+lightgbm
