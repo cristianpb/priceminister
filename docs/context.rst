@@ -26,7 +26,9 @@ Le but est d’évaluer si un avis utilisateur sur un produit peut être utile p
  très grandes et belles cartes soyeuses, les illustrations sont extrêmement bien réalisées, le manuel d'explications est facile et très lisible, pour la voyance personnelle ou pour tirer les cartes en cérémonial la grandeur des cartes permet d'organiser un vrai tirage professionnel)
 et d’autres moins car plus personnels, e.g."
  JEU TRES BIEN POUR MA FILLE DE 4 ANS.JE RECOMMANDE POUR LES JEUNES ENFANT;TRES SATISFAIT).
-Chaque avis est labélisé comme useful (class 1) ou not useful (class 0), en se basant sur leur nombre de retours:
+
+Chaque avis est labélisé comme useful (class 1) ou not useful (class 0), en se 
+basant sur leur nombre de retours
 useful si (nombre de retours positifs / total du nombre de retours) > 0.5
 not useful si (nombre de retours positifs / total du nombre de retours) < 0.5
 
