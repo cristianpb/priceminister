@@ -11,4 +11,3 @@ sklearn
 scipy
 nltk
 lightgbm
-xgboost==0.6
