@@ -3,11 +3,11 @@ Models
 
 Here are some examples to get you started.
 
-.. automodule:: models.train_model
+.. automodule:: src.models.train_model
     :members:
 
 Predict functions
 =================
 
-.. automodule:: models.predict_model
+.. automodule:: src.models.predict_model
     :members:
