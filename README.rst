@@ -1,7 +1,9 @@
-cdiscount
+Price Minister Challenge
 ==============================
 
-L’objectif de ce challenge est de prédire si l’avis d’un utilisateur sur un produit sera utile
+PriceMinister is one of the leading marketplace of E-commerce in France, and is part of the Rakuten group, leader in Japanese market. 
+The goal of this challenge is to predict if a review of a user on a given product may be useful for others. Results from this challenge will help us to rank and filter the millions of reviews on PriceMinister, in order to increase the quality of user experience.
+This is a binary classification problem, evaluated trough AUC metric. Data are in French.
 
 Project Organization
 --------------------

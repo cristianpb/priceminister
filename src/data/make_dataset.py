@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 import click
+import urllib
 import logging
 from dotenv import find_dotenv, load_dotenv
 
+PATH_EXTERNAL = '../data/external'
 
 @click.command()
 @click.argument('input_filepath', type=click.Path(exists=True))
@@ -14,6 +16,9 @@ def main(input_filepath, output_filepath):
     """
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
+    testfile = urllib.URLopener()
+    testfile.retrieve("https://s3-us-west-1.amazonaws.com/fasttext-vectors/wiki.fr.zip",
+                      PATH_EXTERNAL + "wiki.fr.zip")
 
 
 if __name__ == '__main__':

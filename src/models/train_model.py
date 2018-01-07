@@ -1,15 +1,25 @@
-from os.path import join as op
-from gensim.models import KeyedVectors
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import roc_auc_score
 from sklearn.linear_model import Ridge
+import lightgbm as lgb
 import xgboost as xgb
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import StratifiedKFold, KFold
+import pandas as pd
+import os
+import sys
+import logging
+
 
 PATH_RAW = '../data/raw'
 PATH_EXTERNAL = '../data/external'
+PATH_MODELS = '../models/'
 
 
 def split_train(X, y, test_size, random_state=7):
+    """ Train and validation split
+    """
     X_train, X_test,\
         y_train, y_test = train_test_split(X, y, test_size=test_size,
                                            random_state=random_state)
@@ -17,37 +27,63 @@ def split_train(X, y, test_size, random_state=7):
 
 
 def score_function(y_true, y_pred):
+    """ Score function auc
+    """
     return roc_auc_score(y_true, y_pred)
 
 
-def get_fasttext():
-    filename = op(PATH_EXTERNAL, 'wiki.fr.bin')
-    model = KeyedVectors.load_word2vec_format(filename, binary=True)
-    return model
-
-
 def model_ridge(X_train, y_train):
+    """ Ridge regression
+    Minimizing the residual sum of squares we also have a penalty on the
+    coefficients
+
+    http://scikit-learn.org/stable/modules/linear_model.html#ridge-regression
+    """
     model = Ridge(solver="sag", fit_intercept=True, random_state=205)
     model.fit(X_train, y_train)
     return model
 
 
 def model_xgb(X_train, y_train):
-    model = xgb.XGBClassifier(max_depth=7, n_estimators=200,
+    """ Extreme gradient boosting
+
+    http://xgboost.readthedocs.io/en/latest/
+    """
+    model = xgb.XGBClassifier(max_depth=7, n_estimators=800,
                               colsample_bytree=0.8,
                               subsample=0.8, nthread=10, learning_rate=0.1)
     model.fit(X_train, y_train)
     return model
 
-#! /usr/bin/env python
-import numpy as np
-from sklearn.metrics import roc_auc_score
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import StratifiedKFold, KFold
-import pandas as pd
-import os
-import sys
-import logging
+
+def model_lightgbm(X_train, y_train):
+    """ Light Gradient Boosting Machine
+
+    https://github.com/Microsoft/LightGBM/blob/master/docs/Features.rst
+    """
+    model = lgb.LGBMClassifier(learning_rate=0.1, n_estimators=3335,
+                               max_depth=3, num_leaves=100, objective='binary')
+    model.fit(X_train, y_train, eval_metric='auc', )
+    return model
+
+
+def model_ensembler(X_train_tfv, X_train_ft, y_train):
+    """ Train ensemble model
+    """
+    train_data_dict = {0: [X_train_tfv, X_train_tfv], 1: [X_train_ft]}
+    model_dict = {0: [xgb.XGBClassifier(max_depth=7, n_estimators=1000, colsample_bytree=0.8,
+                                        subsample=0.8, nthread=10, learning_rate=0.1),
+                      lgb.LGBMClassifier(learning_rate=0.1, n_estimators=3335,
+                                         max_depth=3, num_leaves=100, objective='binary')],
+                  1: [xgb.XGBClassifier(max_depth=7, n_estimators=200,
+                                        colsample_bytree=0.8,
+                                        subsample=0.8, nthread=10, learning_rate=0.1)]}
+    ens = Ensembler(model_dict=model_dict, num_folds=3,
+                    task_type='classification', lower_is_better=True,
+                    save_path=PATH_MODELS)
+    ens.fit(train_data_dict, y_train, lentrain=X_train_ft.shape[0])
+    return ens
+
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -57,7 +93,8 @@ logger = logging.getLogger(__name__)
 
 
 class Ensembler(object):
-    def __init__(self, model_dict, num_folds=3, task_type='classification', optimize=roc_auc_score,
+    def __init__(self, model_dict, num_folds=3, task_type='classification',
+                 optimize=roc_auc_score,
                  lower_is_better=False, save_path=None):
         """
         Ensembler init function

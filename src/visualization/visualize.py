@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 
 def plot_roc(fpr, tpr):
+    """ Plot roc curve
+    """
     roc_auc = auc(fpr, tpr)
     plt.figure(figsize=(10,5))
     lw = 2
@@ -18,6 +20,8 @@ def plot_roc(fpr, tpr):
 
 
 def plot_scatter(values, colors, ticks, ticks_labels):
+    """ Plot 2D representation of sentences
+    """
     fig, axr = plt.subplots(figsize=(14, 5))
     cax = axr.scatter(values[:, 0], values[:, 1], c=colors, alpha=0.5)
     cbar = fig.colorbar(cax, ticks=ticks, orientation='vertical')

@@ -3,22 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-cdiscount documentation!
+Price Minister
 ==============================================
 
 .. include:: ../README.rst
 
-Contents:
-
-Read More
----------
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
 
-   getting-started
-   commands
+   context
    data
+   features
+   model
+   vis
 
 
 Indices and tables
