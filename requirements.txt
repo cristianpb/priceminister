@@ -27,7 +27,7 @@ jupyter-core==4.4.0
 lightgbm==2.0.12
 MarkupSafe==1.0
 matplotlib==2.1.1
-nltk==3.2.5
+nltk==3.4.5
 numpy==1.13.3
 pandas==0.22.0
 parso==0.1.1
