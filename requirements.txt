@@ -4,7 +4,7 @@ awscli
 flake8
 python-dotenv>=0.5.1
 alabaster==0.7.10
-Babel==2.5.1
+Babel==2.9.1
 boto==2.48.0
 boto3==1.5.8
 botocore==1.8.22
